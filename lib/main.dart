@@ -14,6 +14,8 @@ class ColorSettings extends ChangeNotifier {
     } else {
       this.isRed = false;
     }
+
+    notifyListeners();
   }
 
   // void setRed() {
@@ -86,6 +88,8 @@ class MyApp extends StatelessWidget {
 //   }
 
 class SettingScreen extends StatelessWidget {
+  const SettingScreen({super.key});
+
   //bool isChecked = false;
   @override
   Widget build(BuildContext context) {
@@ -103,18 +107,12 @@ class SettingScreen extends StatelessWidget {
       children: [
         ColorSelection(),
         ColoredBox(),
+        Text('Texto de color rojo'),
       ],
     );
   }
 
   // codigo: 29/05/2024
-  void onChangedCheckBox(bool? value) {
-    setState(() {});
-    isChecked = value!;
-    // setState(() {
-    //   isChecked = value!;
-    // });
-  }
 }
 
 // class ColorSelection extends StatelessWidget {
@@ -153,12 +151,36 @@ class ColorSelection extends StatelessWidget {
         children: [
           Checkbox(
             value: colorSettings.isRed,
-            onChanged: onChangedCheckBox,
+            onChanged: (isChecked) {
+              onChangedCheckBox(isChecked, context);
+              //colorSettings.setRed(isChecked!);
+            },
           ),
           const Text('Color rojo'),
         ],
       );
     });
+  }
+
+  // void onChangedCheckBox(bool? value, ColorSettings colorSettings) {
+  //   // setState(() {});
+  //   // isChecked = value!;
+  //   // setState(() {
+  //   //   isChecked = value!;
+  //   // });
+  //   colorSettings.setRed(value!);
+  // }
+
+  void onChangedCheckBox(bool? value, BuildContext context) {
+    // setState(() {});
+    // isChecked = value!;
+    // setState(() {
+    //   isChecked = value!;
+    // });
+    //colorSettings.setRed(value!);
+    var colorSettings = Provider.of<ColorSettings>(context, listen: false);
+
+    colorSettings.setRed(value!);
   }
 }
 
